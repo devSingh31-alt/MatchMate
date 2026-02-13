@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MatchMate - Play Setup</title>
+
+<style>
+
+:root{
+    --blue:#2563EB;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    min-height:100vh;
+    background:
+        linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
+        url("/static/background.png");
+    background-size:cover;
+    background-position:center;
+    color:white;
+}
+
+/* ================= TOP BAR ================= */
+
+.top-bar{
+    height:90px;
+    background:var(--blue);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 40px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.45);
+}
+
+.brand{
+    font-size:26px;
+    font-weight:bold;
+}
+
+.tagline{
+    font-size:14px;
+    color:#E5E7EB;
+}
+
+.menu a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    font-weight:600;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    width:100%;
+    max-width:520px;
+    margin:40px auto;
+    padding-bottom:40px;
+}
+
+/* ================= FORM ================= */
+
+.form-box{
+    background:rgba(255,255,255,0.96);
+    color:#0F172A;
+    padding:30px;
+    border-radius:22px;
+    box-shadow:0 25px 50px rgba(0,0,0,0.45);
+}
+
+.title{
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:25px;
+}
+
+label{
+    font-size:14px;
+    font-weight:bold;
+}
+
+input, select{
+    width:100%;
+    padding:11px;
+    margin:8px 0 16px;
+    border:1px solid #CBD5E1;
+    border-radius:7px;
+    font-size:14px;
+}
+
+.checkbox{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+    font-size:14px;
+}
+
+/* ================= BUTTON ================= */
+
+.find-btn{
+    width:100%;
+    padding:14px;
+    background:var(--blue);
+    color:white;
+    border:none;
+    border-radius:9px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+    transition:0.3s;
+}
+
+.find-btn:hover{
+    background:#1D4ED8;
+    transform:scale(1.03);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= TOP BAR ================= -->
+
+<div class="top-bar">
+
+    <div>
+        <div class="brand">MatchMate</div>
+        <div class="tagline">Meet. Play. Slay.</div>
+    </div>
+
+    <div class="menu">
+        <a href="/profile?user={{ username }}">Profile</a>
+        <a href="/">Logout</a>
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+<div class="form-box">
+
+    <div class="title">
+        Play {{ sport }} with Others 🏆
+    </div>
+
+    <label>Location</label>
+    <input placeholder="Enter location">
+
+    <label>Date</label>
+    <input type="date">
+
+    <label>Time</label>
+    <input type="time">
+
+    <div class="checkbox">
+        <input type="checkbox" id="team">
+        <label for="team">Want a Team</label>
+    </div>
+
+    <div class="checkbox">
+        <input type="checkbox" id="player">
+        <label for="player">Want a Player</label>
+    </div>
+
+    <label>Your Role</label>
+    <select id="roleSelect"></select>
+
+    <label>Skill Level</label>
+    <select>
+        <option>Beginner</option>
+        <option>Intermediate</option>
+        <option>Advanced</option>
+    </select>
+
+    <!-- ✅ BUTTON IS HERE -->
+    <button class="find-btn" onclick="goMatch()">
+        Find Players 🚀
+    </button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ================= SPORT ROLES ================= */
+
+const sport = "{{ sport }}" || "Cricket";
+
+const roles = {
+
+    Cricket: ["Batsman","Bowler","All-Rounder","Wicket Keeper"],
+
+    Football: ["Striker","Midfielder","Defender","Goalkeeper"],
+
+    Basketball: ["Point Guard","Shooting Guard","Forward","Center"],
+
+    Tennis: ["Singles Player","Doubles Specialist","Baseline Player","Serve & Volley"],
+
+    Rugby: ["Prop","Hooker","Fly-Half","Fullback"],
+
+    Badminton: ["Singles","Doubles","Mixed Doubles","Net Specialist"]
+};
+
+/* Fill Roles */
+
+const roleSelect = document.getElementById("roleSelect");
+
+(roles[sport] || roles.Cricket).forEach(r=>{
+    const opt = document.createElement("option");
+    opt.textContent = r;
+    roleSelect.appendChild(opt);
+});
+
+
+/* ================= NEXT SCREEN ================= */
+
+function goMatch(){
+
+    const teamChecked = document.getElementById("team").checked;
+
+    if(teamChecked){
+        window.location.href = "/match?team=1";
+    }else{
+        window.location.href = "/match";
+    }
+}
+
+</script>
+
+</body>
+</html>

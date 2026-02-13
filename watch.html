@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MatchMate - Match Setup</title>
+
+<style>
+
+:root{
+    --blue:#2563EB;
+    --yellow:#FACC15;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    min-height:100vh;
+    background:
+        linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
+        url("/static/background.png");
+    background-size:cover;
+    background-position:center;
+    color:white;
+    overflow-y:auto;
+}
+
+/* ================= TOP BAR ================= */
+
+.top-bar{
+    height:90px;
+    background:var(--blue);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 40px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.45);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.brand{
+    font-size:26px;
+    font-weight:bold;
+}
+
+.tagline{
+    font-size:14px;
+    color:#E5E7EB;
+}
+
+.menu a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    font-weight:600;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    width:100%;
+    max-width:520px;
+    margin:40px auto;
+    display:flex;
+    flex-direction:column;
+    gap:35px;
+    padding-bottom:40px;
+}
+
+/* ================= FORM BOX ================= */
+
+.form-box{
+    background:rgba(255,255,255,0.96);
+    color:#0F172A;
+    padding:30px;
+    border-radius:22px;
+    box-shadow:0 25px 50px rgba(0,0,0,0.45);
+}
+
+/* Tagline */
+
+.form-tag{
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:22px;
+}
+
+/* Inputs */
+
+.form-box label{
+    font-size:14px;
+    font-weight:bold;
+}
+
+.form-box input,
+.form-box select{
+    width:100%;
+    padding:11px;
+    margin:8px 0 16px;
+    border:1px solid #CBD5E1;
+    border-radius:7px;
+    font-size:14px;
+}
+
+/* Button */
+
+.form-box button{
+    width:100%;
+    padding:13px;
+    background:var(--blue);
+    color:white;
+    border:none;
+    border-radius:9px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.form-box button:hover{
+    background:#1D4ED8;
+}
+
+/* ================= OFFERS ================= */
+
+.offers{
+    background:linear-gradient(135deg,#FFF7CC,#FEF08A);
+    color:#78350F;
+    border-radius:22px;
+    padding:25px;
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.35),
+        inset 0 0 15px rgba(250,204,21,0.6);
+    text-align:center;
+    position:relative;
+}
+
+.offer{
+    display:none;
+    font-weight:bold;
+    font-size:16px;
+}
+
+.offer.active{
+    display:block;
+}
+
+/* Dots */
+
+.dots{
+    display:flex;
+    justify-content:center;
+    margin-top:15px;
+    gap:8px;
+}
+
+.dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#D97706;
+    opacity:0.4;
+}
+
+.dot.active{
+    opacity:1;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= TOP BAR ================= -->
+
+<div class="top-bar">
+
+    <div>
+        <div class="brand">MatchMate</div>
+        <div class="tagline">Meet. Play. Slay.</div>
+    </div>
+
+    <div class="menu">
+        <a href="/profile?user={{ username }}">Profile</a>
+        <a href="/">Logout</a>
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+<!-- FORM -->
+
+<div class="form-box">
+
+    <div class="form-tag">
+        Let’s Set Up Your Match 🎯
+    </div>
+
+    <label>Location</label>
+    <input placeholder="Enter your location">
+
+    <label>Date</label>
+    <input type="date">
+
+    <label>Match</label>
+    <select id="matchSelect" required>
+        <option value="" disabled selected>Select a match</option>
+    </select>
+
+    <label>Which Team You Support?</label>
+    <input placeholder="Your favourite team">
+
+    <button type="button" onclick="goNext()">
+    Find Mates 🚀
+</button>
+
+<script>
+function goNext(){
+    window.location.href = "/watch_match";
+}
+</script>
+</div>
+
+
+<!-- OFFERS -->
+
+<div class="offers">
+
+    <div class="offer active">
+        🎁 Get 50% OFF on First Match Pass!
+    </div>
+
+    <div class="offer">
+        ⭐ Premium Users Get Early Access
+    </div>
+
+    <div class="offer">
+        🏆 Win Rewards by Hosting Matches
+    </div>
+
+    <div class="dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ================= SPORT MATCH DATA ================= */
+
+const params = new URLSearchParams(window.location.search);
+const sport = params.get("sport") || "Cricket";
+
+const matches = {
+
+    Cricket: [
+        "MI vs RCB",
+        "India vs Australia",
+        "Delhi vs UP"
+    ],
+
+    Football: [
+        "Argentina vs Portugal",
+        "Brazil vs France",
+        "Man City vs Liverpool"
+    ],
+
+    Basketball: [
+        "Lakers vs Heat",
+        "Warriors vs Celtics",
+        "Bulls vs Nets"
+    ],
+
+    Tennis: [
+        "Nadal vs Djokovic",
+        "Federer vs Murray",
+        "Alcaraz vs Medvedev"
+    ],
+
+    Rugby: [
+        "NZ vs Australia",
+        "England vs France",
+        "SA vs Wales"
+    ],
+
+    Badminton: [
+        "Sindhu vs Marin",
+        "Axelsen vs Momota",
+        "India vs China"
+    ]
+};
+
+/* Fill Match Dropdown */
+
+const select = document.getElementById("matchSelect");
+
+select.innerHTML =
+    '<option value="" disabled selected>Select a match</option>';
+
+(matches[sport] || matches.Cricket).forEach(m => {
+
+    const opt = document.createElement("option");
+    opt.value = m;
+    opt.textContent = m;
+
+    select.appendChild(opt);
+});
+
+
+/* ================= OFFERS SLIDER ================= */
+
+let current = 0;
+
+const offers = document.querySelectorAll(".offer");
+const dots = document.querySelectorAll(".dot");
+
+setInterval(()=>{
+
+    offers[current].classList.remove("active");
+    dots[current].classList.remove("active");
+
+    current = (current + 1) % offers.length;
+
+    offers[current].classList.add("active");
+    dots[current].classList.add("active");
+
+},3000);
+
+</script>
+
+</body>
+</html>

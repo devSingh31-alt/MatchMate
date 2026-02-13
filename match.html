@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MatchMate - Matches</title>
+
+<style>
+
+:root{
+    --blue:#2563EB;
+    --violet:#7C3AED;
+    --pink:#EC4899;
+}
+
+/* RESET */
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#E6F0FF;
+    min-height:100vh;
+    overflow-y:auto;
+}
+
+/* ================= TOP BAR ================= */
+
+.top-bar{
+    height:90px;
+    background:var(--blue);
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 40px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.5);
+}
+
+.brand{font-size:26px;font-weight:bold;}
+.tagline{font-size:14px;color:#E5E7EB;}
+
+.menu a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    font-weight:600;
+}
+
+/* ================= BACKGROUND TEXT ================= */
+
+.bg-text{
+    position:fixed;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    align-items:center;
+    pointer-events:none;
+    z-index:0;
+}
+
+.bg-text div{
+    font-size:140px;
+    font-weight:bold;
+    color:rgba(37,99,235,0.18);
+}
+
+.outline{
+    color:transparent;
+    -webkit-text-stroke:2px rgba(37,99,235,0.4);
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    min-height:calc(100vh - 90px);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:60px 20px;
+    position:relative;
+    z-index:5;
+}
+
+/* ================= CARD ================= */
+
+.card{
+    width:430px;
+    height:600px;
+
+    border-radius:28px;
+    overflow:hidden;
+    position:relative;
+
+    background:black;
+
+    box-shadow:
+        0 25px 60px rgba(37,99,235,0.6),
+        0 0 35px rgba(37,99,235,0.4);
+
+    transition:0.5s ease-in-out;
+    animation:pop 0.5s ease;
+}
+
+/* Card Pop */
+
+@keyframes pop{
+    from{
+        transform:scale(0.9);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* Image */
+
+.card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* Overlay */
+
+.overlay{
+    position:absolute;
+    inset:0;
+
+    background:linear-gradient(
+        to top,
+        rgba(0,0,0,0.9),
+        rgba(0,0,0,0.25)
+    );
+
+    color:white;
+    padding:25px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+}
+
+/* Badge (Scary 😈) */
+
+.badge{
+    position:absolute;
+    top:18px;
+    left:50%;
+    transform:translateX(-50%);
+
+    background:linear-gradient(45deg,var(--violet),var(--pink));
+    color:white;
+
+    padding:7px 18px;
+    border-radius:16px;
+
+    font-size:13px;
+    font-weight:bold;
+
+    box-shadow:
+        0 0 12px black,
+        0 0 25px rgba(124,58,237,0.9);
+
+    letter-spacing:1px;
+}
+
+/* Name */
+
+.name{
+    font-size:26px;
+    font-weight:bold;
+}
+
+/* Role */
+
+.role{
+    font-size:15px;
+    margin:6px 0;
+    opacity:0.9;
+}
+
+/* Level */
+
+.level{
+    margin-top:8px;
+    font-weight:bold;
+    padding:6px 16px;
+    border-radius:14px;
+    width:max-content;
+}
+
+/* Levels */
+
+.gold{background:linear-gradient(45deg,#FFD700,#FFB703);color:black;}
+.silver{background:linear-gradient(45deg,#E5E7EB,#94A3B8);color:black;}
+.crystal{background:linear-gradient(45deg,#A5F3FC,#38BDF8);color:black;}
+.conqueror{background:linear-gradient(45deg,#A855F7,#7C3AED);}
+
+/* ================= BUTTONS ================= */
+
+.buttons{
+    position:absolute;
+    top:50%;
+    width:100%;
+
+    display:flex;
+    justify-content:space-between;
+
+    padding:0 90px;
+    transform:translateY(-50%);
+
+    z-index:50;
+}
+
+.btn{
+    width:75px;
+    height:75px;
+
+    border-radius:50%;
+    border:none;
+
+    font-size:30px;
+    cursor:pointer;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.6);
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:scale(1.1);
+}
+
+.no{background:#FEE2E2;color:#DC2626;}
+.yes{background:#DCFCE7;color:#16A34A;}
+
+/* ================= LOADING ================= */
+
+.loading{
+    position:fixed;
+    inset:0;
+
+    background:#E6F0FF;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+
+    z-index:1000;
+}
+
+.loader{
+    width:60px;
+    height:60px;
+
+    border:6px solid #CBD5E1;
+    border-top:6px solid var(--blue);
+
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
+
+.loading p{
+    margin-top:20px;
+    font-weight:bold;
+    font-size:17px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOADING -->
+
+<div class="loading" id="loading">
+    <div class="loader"></div>
+    <p>Finding your perfect match 😎🔥</p>
+</div>
+
+
+<!-- TOP BAR -->
+
+<div class="top-bar">
+
+    <div>
+        <div class="brand">MatchMate</div>
+        <div class="tagline">Meet. Play. Slay.</div>
+    </div>
+
+    <div class="menu">
+       <a href="/profile?user={{ username }}">Profile</a>
+        <a href="/">Logout</a>
+    </div>
+
+</div>
+
+
+<!-- BACKGROUND TEXT -->
+
+<div class="bg-text">
+
+    <div>MatchMate</div>
+    <div class="outline">MatchMate</div>
+    <div>MatchMate</div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="main">
+
+    <div id="cardBox"></div>
+
+    <div class="buttons">
+        <button class="btn no" onclick="swipeLeft()">❌</button>
+        <button class="btn yes" onclick="swipeRight()">✅</button>
+    </div>
+
+</div>
+
+
+<script>
+
+/* ================= USERS ================= */
+
+const users = [
+
+{
+ name:"Uncle Wang",
+ role:"All-Rounder",
+ level:"gold",
+ badge:"Pro Player",
+ img:"/static/unclewang.png"
+},
+
+{
+ name:"Dolma Aunty",
+ role:"Defender",
+ level:"silver",
+ badge:"Crowd Fav",
+ img:"/static/dolma.png"
+},
+
+{
+ name:"Daniyal",
+ role:"Striker",
+ level:"crystal",
+ badge:"Rising Star",
+ img:"/static/daniyal.png"
+},
+
+{
+ name:"Stephen Strange",
+ role:"Playmaker",
+ level:"conqueror",
+ badge:"Genius",
+ img:"/static/stephen.png"
+},
+
+{
+ name:"Severus Snape",
+ role:"Coach",
+ level:"gold",
+ badge:"Precision",
+ img:"/static/snape.png"
+}
+
+];
+
+let index = 0;
+
+
+/* ================= CARD ================= */
+
+function createCard(u){
+
+    const div = document.createElement("div");
+    div.className="card";
+
+    div.innerHTML = `
+        <img src="${u.img}">
+
+        <div class="overlay">
+
+            <div class="badge">${u.badge}</div>
+
+            <div class="name">${u.name}</div>
+            <div class="role">${u.role}</div>
+
+            <div class="level ${u.level}">
+                ${u.level.toUpperCase()}
+            </div>
+
+        </div>
+    `;
+
+    return div;
+}
+
+
+function loadCard(){
+
+    const box=document.getElementById("cardBox");
+    box.innerHTML="";
+
+    if(index>=users.length){
+        box.innerHTML="<h2>No More Matches 😅</h2>";
+        return;
+    }
+
+    box.appendChild(createCard(users[index]));
+}
+
+
+/* ================= SWIPE ================= */
+
+function swipeRight(){
+
+    const card=document.querySelector(".card");
+    if(!card)return;
+
+    card.style.transition="0.4s ease-in-out";
+    card.style.transform="translateX(600px) rotate(20deg)";
+
+    setTimeout(()=>{
+        window.location.href="/success?user="+ index;
+    },400);
+}
+
+
+function swipeLeft(){
+
+    const card=document.querySelector(".card");
+    if(!card)return;
+
+    card.style.transition="0.4s ease-in-out";
+    card.style.transform="translateX(-600px) rotate(-20deg)";
+
+    setTimeout(()=>{
+        index++;
+        loadCard();
+    },400);
+}
+
+
+/* ================= LOADING ================= */
+
+setTimeout(()=>{
+
+    document.getElementById("loading").style.display="none";
+    loadCard();
+
+},2000);
+
+</script>
+
+</body>
+</html>

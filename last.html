@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MatchMate - Match Result</title>
+
+<style>
+
+:root{
+    --blue:#2563EB;
+    --purple:#8B5CF6;
+}
+
+*{
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+/* ================= BODY ================= */
+
+body{
+    margin:0;
+
+    background-image: url("/static/bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+
+/* ================= TOP BAR ================= */
+
+.top-bar{
+    height:90px;
+    background:var(--blue);
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 40px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.brand{
+    font-size:26px;
+    font-weight:bold;
+}
+
+.tagline{
+    font-size:14px;
+    opacity:0.9;
+}
+
+.menu a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    font-weight:600;
+}
+
+
+/* ================= MAIN ================= */
+
+.main{
+    max-width:1200px;
+    margin:60px auto;
+    display:flex;
+    gap:40px;
+    padding:20px;
+}
+
+
+/* ================= CARD ================= */
+
+.profile-card{
+    width:380px;
+    height:520px;
+    border-radius:22px;
+    overflow:hidden;
+    position:relative;
+
+    background:linear-gradient(145deg,#FFD700,#FFB703);
+
+    box-shadow:
+        0 0 25px rgba(255,215,0,0.7),
+        0 20px 50px rgba(0,0,0,0.4);
+}
+
+.profile-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.card-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to top,rgba(0,0,0,0.9),transparent 60%);
+}
+
+.name-box{
+    position:absolute;
+    bottom:20px;
+    left:20px;
+    color:white;
+}
+
+.name-box h2{
+    margin:0;
+    font-size:26px;
+}
+
+.rank{
+    font-size:14px;
+    color:#FFD700;
+}
+
+
+/* ================= INFO ================= */
+
+.info-box{
+    flex:1;
+    background:white;
+    border-radius:22px;
+    padding:35px;
+
+    box-shadow:0 20px 40px rgba(0,0,0,0.25);
+}
+
+.info-box h3{
+    margin-top:0;
+}
+
+
+/* ================= STATS ================= */
+
+.stat{
+    margin:15px 0;
+}
+
+.bar{
+    width:100%;
+    height:10px;
+    background:#E5E7EB;
+    border-radius:6px;
+    overflow:hidden;
+}
+
+.fill{
+    height:100%;
+    background:var(--purple);
+}
+
+
+/* ================= LOADING ================= */
+
+.loading{
+    margin-top:20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.spinner{
+    width:18px;
+    height:18px;
+    border:3px solid #ccc;
+    border-top:3px solid var(--purple);
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
+
+
+/* ================= BUTTONS ================= */
+
+.actions{
+    margin-top:40px;
+    display:flex;
+    justify-content:center;
+    gap:40px;
+}
+
+.circle-btn{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    border:none;
+    cursor:pointer;
+    font-size:22px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+.cancel{
+    background:#FEE2E2;
+}
+
+.chat{
+    background:#DCFCE7;
+}
+
+
+/* ================= POPUP ================= */
+
+.popup-bg{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(5px);
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+
+    z-index:1000;
+}
+
+.popup{
+    width:350px;
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+    position:relative;
+
+    box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+.popup h2{
+    margin-top:0;
+}
+
+.close{
+    position:absolute;
+    top:12px;
+    right:15px;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.buy{
+    margin-top:20px;
+    padding:12px;
+    width:100%;
+    border:none;
+
+    background:var(--purple);
+    color:white;
+
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- ================= TOP BAR ================= -->
+
+<div class="top-bar">
+
+    <div>
+        <div class="brand">MatchMate</div>
+        <div class="tagline">Meet. Play. Slay.</div>
+    </div>
+
+    <div class="menu">
+        <a href="/profile?user={{ username }}">Profile</a>
+        <a href="/">Logout</a>
+    </div>
+
+</div>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+
+<!-- CARD -->
+
+<div class="profile-card">
+
+    <img id="userImg">
+
+    <div class="card-overlay"></div>
+
+    <div class="name-box">
+        <h2 id="userName"></h2>
+        <div class="rank" id="userRank"></div>
+    </div>
+
+</div>
+
+
+
+<!-- INFO -->
+
+<div class="info-box">
+
+    <h3>About</h3>
+    <p id="aboutText"></p>
+
+
+    <h3>What I'm Looking For</h3>
+    <p id="lookingText"></p>
+
+
+    <div class="stat">
+        Excitement
+        <div class="bar"><div class="fill" style="width:90%"></div></div>
+    </div>
+
+    <div class="stat">
+        Knowledge
+        <div class="bar"><div class="fill" style="width:65%"></div></div>
+    </div>
+
+    <div class="stat">
+        Patience
+        <div class="bar"><div class="fill" style="width:40%"></div></div>
+    </div>
+
+    <div class="stat">
+        Fun Level
+        <div class="bar"><div class="fill" style="width:85%"></div></div>
+    </div>
+
+
+    <div class="loading">
+        <div class="spinner"></div>
+        Waiting for response...
+    </div>
+
+
+    <div class="actions">
+
+        <button class="circle-btn cancel" onclick="goBack()">❌</button>
+
+        <button class="circle-btn chat" onclick="openPopup()">💬</button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+
+<!-- ================= POPUP ================= -->
+
+<div class="popup-bg" id="popup">
+
+    <div class="popup">
+
+        <div class="close" onclick="closePopup()">✖</div>
+
+        <h2>₹299 Premium</h2>
+
+        <p><b>Unlock Chat Access 🚀</b></p>
+
+        <p>✔ Unlimited Chats</p>
+        <p>✔ Priority Matches</p>
+        <p>✔ See Who Liked You</p>
+        <p>✔ No Ads</p>
+        <p>✔ VIP Badge</p>
+
+        <button class="buy">Buy Now</button>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* ================= USERS ================= */
+
+const users = [
+
+{
+ name:"Uncle Wang",
+ img:"/static/unclewang.png",
+ rank:"Gold",
+ about:"Loves every match, remembers legends, enjoys fun debates, and motivates everyone.",
+ looking:"Weekend watch buddies and loyal fans."
+},
+
+{
+ name:"Daniyal",
+ img:"/static/daniyal.png",
+ rank:"Crystal",
+ about:"Crazy sports lover, never misses finals, loves memes and commentary.",
+ looking:"High energy match partners."
+},
+
+{
+ name:"Tanishka",
+ img:"/static/tanishka.png",
+ rank:"Silver",
+ about:"Enjoys tactical analysis and player stats.",
+ looking:"Smart sports fans."
+},
+
+{
+ name:"Uditi",
+ img:"/static/uditi.png",
+ rank:"Bronze",
+ about:"New fan, loves learning and enjoying matches.",
+ looking:"Supportive friends."
+},
+
+{
+ name:"Preeti",
+ img:"/static/preeti.png",
+ rank:"Gold",
+ about:"Hardcore supporter, energetic and passionate.",
+ looking:"True sports lovers."
+}
+
+];
+
+
+/* ================= LOAD USER ================= */
+
+const params = new URLSearchParams(window.location.search);
+
+const id = params.get("user") || 0;
+const mode = params.get("mode") || "play";
+
+const u = users[id];
+
+
+document.getElementById("userName").innerText = u.name;
+document.getElementById("userRank").innerText = u.rank;
+document.getElementById("userImg").src = u.img;
+
+document.getElementById("aboutText").innerText = u.about;
+document.getElementById("lookingText").innerText = u.looking;
+
+
+/* ================= BUTTONS ================= */
+
+function goBack(){
+
+    if(mode === "watch"){
+        window.location.href = "/watch_match";
+    }
+    else{
+        window.location.href = "/match";
+    }
+}
+
+
+function openPopup(){
+    document.getElementById("popup").style.display="flex";
+}
+
+
+function closePopup(){
+    document.getElementById("popup").style.display="none";
+}
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MatchMate - Login</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .left {
+            width: 50%;
+        }
+
+        .left img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .right {
+            width: 50%;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .tagline {
+            color: gray;
+            margin-bottom: 20px;
+        }
+
+        .desc {
+            margin-bottom: 30px;
+            color: #444;
+        }
+
+        .card {
+            background: #F8FAFC;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 32px;
+            max-width: 400px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #CBD5E1;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #2563EB;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .or {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .signup {
+            text-align: center;
+        }
+
+        .signup a {
+            color: #2563EB;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="left">
+        <img src="{{ url_for('static', filename='login.png') }}">
+    </div>
+
+
+    <div class="right">
+
+        <div class="brand">MatchMate</div>
+        <div class="tagline">Meet. Play. Slay.</div>
+
+        <div class="desc">
+            Sign in to connect with sporty people<br>
+            and find your perfect match.
+        </div>
+
+        <div class="card">
+
+            <form action="/next" method="POST">
+
+    <input type="text" name="username" placeholder="Username" required>
+
+    <input type="password" placeholder="Password" required>
+
+    <button type="submit">Sign In</button>
+
+</form>
+            <div class="or">or</div>
+
+            <div class="signup">
+                Already have an account?
+                <a href="#">Sign Up</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

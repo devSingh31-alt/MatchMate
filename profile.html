@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Profile - MatchMate</title>
+
+<style>
+
+/* ================= BODY ================= */
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+
+    background-image: url("/static/bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+
+/* ================= OVERLAY ================= */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.4);
+    backdrop-filter:blur(6px);
+}
+
+
+/* ================= PROFILE CARD ================= */
+
+.profile-popup{
+    width:430px;
+    max-height:90vh;
+
+    background:#EAF3FF;
+    border-radius:24px;
+
+    padding:25px;
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.5),
+        inset 0 0 20px rgba(37,99,235,0.15);
+
+    overflow-y:auto;
+
+    position:relative;
+    z-index:10;
+}
+
+
+/* ================= CLOSE ================= */
+
+.close-btn{
+    position:absolute;
+    top:15px;
+    right:18px;
+
+    font-size:22px;
+    cursor:pointer;
+    font-weight:bold;
+
+    color:#1E3A8A;
+}
+
+
+/* ================= PHOTO ================= */
+
+.photo-box{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.photo-circle{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+
+    background:#DCEBFF;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:40px;
+    color:#2563EB;
+
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.camera{
+    margin-top:6px;
+    font-size:14px;
+    color:#2563EB;
+    cursor:pointer;
+}
+
+
+/* ================= BASIC ================= */
+
+.name{
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+    margin-top:10px;
+
+    color:#0F172A;
+}
+
+.sport{
+    text-align:center;
+    font-size:14px;
+    color:#475569;
+    margin-bottom:15px;
+}
+
+
+/* ================= SECTION ================= */
+
+.section{
+    margin-top:22px;
+}
+
+.section h3{
+    margin:0 0 10px;
+    font-size:16px;
+    color:#1E3A8A;
+}
+
+
+/* ================= BADGES ================= */
+
+.badges{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.badge{
+    background:linear-gradient(135deg,#7C3AED,#EC4899);
+
+    color:white;
+
+    padding:6px 12px;
+    border-radius:20px;
+
+    font-size:12px;
+
+    box-shadow:0 3px 8px rgba(0,0,0,0.35);
+}
+
+
+/* ================= SKILLS ================= */
+
+.skill{
+    margin-bottom:12px;
+}
+
+.skill span{
+    font-size:13px;
+    font-weight:bold;
+    color:#0F172A;
+}
+
+.bar{
+    height:9px;
+    background:#CBD5E1;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:4px;
+}
+
+.fill{
+    height:100%;
+    background:linear-gradient(90deg,#2563EB,#7C3AED);
+}
+
+
+/* ================= ABOUT ================= */
+
+.about{
+    font-size:14px;
+    line-height:1.6;
+    color:#1F2933;
+}
+
+
+/* ================= COMPLIMENTS ================= */
+
+.compliment{
+    background:white;
+
+    padding:10px;
+
+    border-radius:12px;
+
+    font-size:13px;
+
+    margin-bottom:8px;
+
+    box-shadow:0 3px 8px rgba(0,0,0,0.15);
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- OVERLAY -->
+<div class="overlay"></div>
+
+
+<!-- PROFILE CARD -->
+
+<div class="profile-popup">
+
+<!-- Close -->
+<div class="close-btn" onclick="goBack()">✖</div>
+
+
+<!-- PHOTO -->
+
+<div class="photo-box">
+
+    <div class="photo-circle">👤</div>
+
+    <div class="camera">📷 Add Photo</div>
+
+</div>
+
+
+<!-- BASIC -->
+
+<div class="name">
+    {{ username }}
+</div>
+
+<div class="sport">
+    Prefers: Cricket • Football • Tennis
+</div>
+
+
+<!-- BADGES -->
+
+<div class="section">
+
+    <h3>🏅 Badges</h3>
+
+    <div class="badges">
+
+        <div class="badge">Top Fan</div>
+        <div class="badge">Pro Watcher</div>
+        <div class="badge">MVP Supporter</div>
+        <div class="badge">Night Owl</div>
+
+    </div>
+
+</div>
+
+
+<!-- CAPABILITIES -->
+
+<div class="section">
+
+    <h3>💪 Capabilities</h3>
+
+
+    <div class="skill">
+        <span>Strength</span>
+        <div class="bar"><div class="fill" style="width:80%"></div></div>
+    </div>
+
+    <div class="skill">
+        <span>Stamina</span>
+        <div class="bar"><div class="fill" style="width:60%"></div></div>
+    </div>
+
+    <div class="skill">
+        <span>Potential</span>
+        <div class="bar"><div class="fill" style="width:90%"></div></div>
+    </div>
+
+    <div class="skill">
+        <span>Focus</span>
+        <div class="bar"><div class="fill" style="width:40%"></div></div>
+    </div>
+
+    <div class="skill">
+        <span>Speed</span>
+        <div class="bar"><div class="fill" style="width:25%"></div></div>
+    </div>
+
+    <div class="skill">
+        <span>Teamwork</span>
+        <div class="bar"><div class="fill" style="width:75%"></div></div>
+    </div>
+
+</div>
+
+
+<!-- ABOUT -->
+
+<div class="section">
+
+    <h3>📝 About</h3>
+
+    <div class="about">
+
+        Sports lover who never misses a big match.  
+        Enjoys watching with friends and discussing every play.  
+        Always energetic and positive in groups.
+
+    </div>
+
+</div>
+
+
+<!-- COMPLIMENTS -->
+
+<div class="section">
+
+    <h3>💬 Compliments</h3>
+
+
+    <div class="compliment">
+        ⭐ “Great vibe during India vs Pak match!”
+    </div>
+
+    <div class="compliment">
+        ⭐ “Explains game rules very nicely.”
+    </div>
+
+    <div class="compliment">
+        ⭐ “Fun to watch matches with!”
+    </div>
+
+    <div class="compliment">
+        ⭐ “Never gets bored even in long matches.”
+    </div>
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+function goBack(){
+    window.history.back();
+}
+
+</script>
+
+</body>
+</html>

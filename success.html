@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MatchMate - Match Details</title>
+
+<style>
+
+:root{
+    --blue:#2563EB;
+    --purple:#7C3AED;
+}
+
+/* RESET */
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#DDEBFF;
+    min-height:100vh;
+    overflow:hidden;
+}
+
+/* ================= TOP BAR ================= */
+
+.top-bar{
+    height:90px;
+    background:var(--blue);
+    color:white;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 40px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,0.4);
+}
+
+.brand{font-size:26px;font-weight:bold;}
+.tagline{font-size:14px;color:#E5E7EB;}
+
+.menu a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    font-weight:600;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    height:calc(100vh - 90px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+/* ================= CONTAINER ================= */
+
+.container{
+    width:100%;
+    max-width:1100px;
+    display:flex;
+    gap:40px;
+}
+
+/* ================= PROFILE CARD ================= */
+
+.profile{
+    width:380px;
+    height:520px;
+    border-radius:24px;
+    overflow:hidden;
+    position:relative;
+    box-shadow:0 20px 50px rgba(37,99,235,0.6);
+}
+
+.profile img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to top,
+        rgba(0,0,0,0.85),
+        rgba(0,0,0,0.25)
+    );
+    color:white;
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+}
+
+.name{
+    font-size:26px;
+    font-weight:bold;
+}
+
+.role{
+    font-size:15px;
+}
+
+/* ================= INFO ================= */
+
+.info{
+    flex:1;
+    background:white;
+    border-radius:24px;
+    padding:30px;
+    box-shadow:0 25px 60px rgba(0,0,0,0.3);
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+/* ================= STATS ================= */
+
+.stat label{
+    font-weight:bold;
+}
+
+.bar{
+    height:10px;
+    background:#E5E7EB;
+    border-radius:8px;
+    overflow:hidden;
+    margin-top:5px;
+}
+
+.fill{
+    height:100%;
+    background:linear-gradient(45deg,#7C3AED,#A855F7);
+}
+
+/* ================= LOADER ================= */
+
+.wait{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    font-weight:bold;
+}
+
+.loader{
+    width:20px;
+    height:20px;
+    border:3px solid #CBD5E1;
+    border-top:3px solid var(--purple);
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
+
+/* ================= ACTIONS ================= */
+
+.actions{
+    margin-top:auto;
+    display:flex;
+    justify-content:center;
+    gap:40px;
+}
+
+.btn{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    border:none;
+    font-size:26px;
+    cursor:pointer;
+}
+
+.cancel{background:#FEE2E2;color:#DC2626;}
+.chat{background:#DCFCE7;color:#16A34A;}
+
+/* ================= POPUP ================= */
+
+.popup-bg{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(6px);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.popup{
+    width:360px;
+    background:white;
+    border-radius:22px;
+    padding:30px;
+    text-align:center;
+    position:relative;
+    box-shadow:0 25px 60px rgba(0,0,0,0.5);
+}
+
+.popup h2{
+    font-size:30px;
+}
+
+.popup ul{
+    text-align:left;
+    margin:20px 0;
+}
+
+.popup li{
+    margin-bottom:8px;
+}
+
+.close{
+    position:absolute;
+    top:12px;
+    right:15px;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.buy-btn{
+    width:100%;
+    padding:12px;
+    background:var(--purple);
+    color:white;
+    border:none;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+
+<div class="top-bar">
+
+<div>
+    <div class="brand">MatchMate</div>
+    <div class="tagline">Meet. Play. Slay.</div>
+</div>
+
+<div class="menu">
+    <a href="/profile?user={{ username }}">Profile</a>
+<a href="/">Logout</a>
+</div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="container">
+
+<!-- PROFILE -->
+
+<div class="profile" id="profileBox"></div>
+
+
+<!-- INFO -->
+
+<div class="info">
+
+<h3>About</h3>
+
+<p>
+Skilled, disciplined, and highly competitive player.
+Always focused on teamwork and victory.
+</p>
+
+
+<div>
+
+<div class="stat">
+<label>Strength</label>
+<div class="bar"><div class="fill" style="width:90%"></div></div>
+</div>
+
+<div class="stat">
+<label>Speed</label>
+<div class="bar"><div class="fill" style="width:70%"></div></div>
+</div>
+
+<div class="stat">
+<label>Stamina</label>
+<div class="bar"><div class="fill" style="width:55%"></div></div>
+</div>
+
+<div class="stat">
+<label>Accuracy</label>
+<div class="bar"><div class="fill" style="width:80%"></div></div>
+</div>
+
+</div>
+
+
+<div class="wait">
+<div class="loader"></div>
+Waiting for response...
+</div>
+
+
+<div class="actions">
+
+<button class="btn cancel" onclick="goBack()">❌</button>
+<button class="btn chat" onclick="openPopup()">💬</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- POPUP -->
+
+<div class="popup-bg" id="popup">
+
+<div class="popup">
+
+<span class="close" onclick="closePopup()">✖</span>
+
+<h2>₹299 Premium</h2>
+
+<p><b>Unlock Chat Access 🚀</b></p>
+
+<ul>
+<li>✔ Unlimited Chats</li>
+<li>✔ Priority Matches</li>
+<li>✔ See Who Liked You</li>
+<li>✔ No Ads</li>
+<li>✔ VIP Badge</li>
+</ul>
+
+<button class="buy-btn">Buy Now</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* USERS */
+
+const users=[
+
+{name:"Uncle Wang",role:"All-Rounder",img:"/static/unclewang.png"},
+{name:"Dolma Aunty",role:"Defender",img:"/static/dolma.png"},
+{name:"Daniyal",role:"Striker",img:"/static/daniyal.png"},
+{name:"Stephen Strange",role:"Playmaker",img:"/static/stephen.png"},
+{name:"Severus Snape",role:"Coach",img:"/static/snape.png"}
+
+];
+
+
+/* LOAD SELECTED USER */
+
+const params=new URLSearchParams(window.location.search);
+let i=params.get("user");
+
+if(i===null || i<0 || i>=users.length){
+    i=0;
+}
+
+const u=users[i];
+
+document.getElementById("profileBox").innerHTML=`
+
+<img src="${u.img}">
+
+<div class="overlay">
+
+    <div class="name">${u.name}</div>
+    <div class="role">${u.role}</div>
+
+</div>
+
+`;
+
+
+/* POPUP */
+
+function openPopup(){
+    document.getElementById("popup").style.display="flex";
+}
+
+function closePopup(){
+    document.getElementById("popup").style.display="none";
+}
+
+
+/* BACK */
+
+function goBack(){
+    window.location.href="/match";
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Select Sport - MatchMate</title>
+
+<style>
+:root{
+    --blue:#2563EB;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#F8FAFC;
+}
+
+/* ================= TOP BAR ================= */
+
+.top-bar{
+    height:90px;
+    background:var(--blue);
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 40px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.3);
+}
+
+.brand{
+    font-size:26px;
+    font-weight:bold;
+}
+
+.tagline{
+    font-size:14px;
+    color:#E5E7EB;
+}
+
+.menu a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    font-weight:600;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    padding:35px 50px;
+}
+
+.title{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:35px;
+}
+
+/* ================= GRID ================= */
+
+.grid{
+    max-width:1000px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:35px;
+}
+
+/* ================= CARD ================= */
+
+.card{
+    height:240px;
+    border-radius:20px;
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    box-shadow:0 15px 35px rgba(0,0,0,0.25);
+    background-size:cover;
+    background-position:center;
+    transition:0.35s ease;
+}
+
+.card:hover{
+    transform:scale(1.05);
+}
+
+/* Background Images */
+
+.football{
+    background-image:url("/static/football.png");
+}
+
+.cricket{
+    background-image:url("/static/cricket.png");
+}
+
+.basketball{
+    background-image:url("/static/basketball.png");
+}
+
+.tennis{
+    background-image:url("/static/tennis.png");
+}
+
+.rugby{
+    background-image:url("/static/rugby.png");
+}
+
+.badminton{
+    background-image:url("/static/badminton.png");
+}
+
+/* ================= OVERLAY ================= */
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+    padding:20px;
+}
+
+.overlay h2{
+    font-size:26px;
+    margin-bottom:6px;
+}
+
+.overlay p{
+    font-size:14px;
+    opacity:0.9;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:800px){
+    .grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= TOP BAR ================= -->
+
+<div class="top-bar">
+
+    <div>
+        <div class="brand">MatchMate</div>
+        <div class="tagline">Meet. Play. Slay.</div>
+    </div>
+
+    <div class="menu">
+       <a href="/profile?user={{ username }}">Profile</a>
+        <a href="/">Logout</a>
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+    <div class="title">Select Your Sport 🏆</div>
+
+    <div class="grid">
+
+        <!-- Football -->
+        <div class="card football" onclick="selectSport('Football','⚽')">
+            <div class="overlay">
+                <h2>Football</h2>
+                <p>Feel the stadium vibe</p>
+            </div>
+        </div>
+
+        <!-- Cricket -->
+        <div class="card cricket" onclick="selectSport('Cricket','🏏')">
+            <div class="overlay">
+                <h2>Cricket</h2>
+                <p>Cheer every boundary</p>
+            </div>
+        </div>
+
+        <!-- Basketball -->
+        <div class="card basketball" onclick="selectSport('Basketball','🏀')">
+            <div class="overlay">
+                <h2>Basketball</h2>
+                <p>Fast. Loud. Electric.</p>
+            </div>
+        </div>
+
+        <!-- Tennis -->
+        <div class="card tennis" onclick="selectSport('Tennis','🎾')">
+            <div class="overlay">
+                <h2>Tennis</h2>
+                <p>Calm but intense</p>
+            </div>
+        </div>
+
+        <!-- Rugby -->
+        <div class="card rugby" onclick="selectSport('Rugby','🏉')">
+            <div class="overlay">
+                <h2>Rugby</h2>
+                <p>Grit meets glory</p>
+            </div>
+        </div>
+
+        <!-- Badminton -->
+        <div class="card badminton" onclick="selectSport('Badminton','🏸')">
+            <div class="overlay">
+                <h2>Badminton</h2>
+                <p>Speed meets finesse</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+function selectSport(name, emoji){
+
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get("mode") || "watch";
+
+    if(mode === "play"){
+        window.location.href =
+            "/play?sport=" + name +
+            "&emoji=" + encodeURIComponent(emoji);
+    }
+    else{
+        window.location.href =
+            "/watch?sport=" + name +
+            "&emoji=" + encodeURIComponent(emoji);
+    }
+}
+</script>
+</body>
+</html>
